@@ -1,19 +1,18 @@
 name: Hello World Workflow
 
 on:
-  workflow_dispatch:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   hello-world:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+    - name: Checkout repository
+      uses: actions/checkout@v2
 
-      - name: Run Hello World Script
-        run: echo "Hello, World!"
-        run: echo "This is a syntax error" # Intentional syntax error
+    - name: Run Hello World Script
+      run: echo "Hello World"
