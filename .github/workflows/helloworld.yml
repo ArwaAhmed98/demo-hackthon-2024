@@ -1,14 +1,14 @@
 name: Hello World Workflow
 
 on:
-  workflow_dispatch:  # Allows manual triggering from the GitHub Actions UI
+  workflow_dispatch:
   push:
     branches:
-      - main  # Triggers the workflow on pushes to the main branch
+      - main
 
 jobs:
   hello-world:
-    runs-on: ubuntu-latest  # The type of machine to run the job on
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
@@ -16,3 +16,4 @@ jobs:
 
       - name: Run Hello World Script
         run: echo "Hello, World!"
+        run: echo "This is a syntax error" # Intentional syntax error
