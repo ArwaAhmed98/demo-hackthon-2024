@@ -1,4 +1,4 @@
-name  Hello World Workflow
+name: Hello World Workflow
 
 on:
   workflow_dispatch:  # Allows manual triggering from the GitHub Actions UI
@@ -12,7 +12,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2  # Check out the repository's code
+        uses: actions/checkout@v2
 
       - name: Run Hello World Script
-        run: echo "Hello, World!"  # Run a command to print "Hello, World!"
+        run: echo "Hello, World!"
