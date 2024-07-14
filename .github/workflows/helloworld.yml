@@ -2,7 +2,7 @@ name: Hello World Workflow
 
 on:
   push:
-    branches:
+    branches
       - main
   workflow_dispatch:
 
@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
+    name: Checkout repository
       uses: actions/checkout@v2
 
     - name: Run Hello World Script
