@@ -6,16 +6,17 @@ import yaml
 import base64
 import re
 import openai
+import subprocess
 
 # Static variables
 GITHUB_API_URL = "https://api.github.com"
 REPO_OWNER = "ArwaAhmed98"
 REPO_NAME = "demo-hackthon-2024"
 WORKFLOW_FILE_PATH = ".github/workflows/helloworld.yml"
-GITHUB_TOKEN = "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"
+GITHUB_TOKEN = ""
 BACKUP_DIRECTORY = "/Users/abdelhalima3/Downloads/Actions"
 BUILD_POLL_INTERVAL = 10  # Time in seconds between status checks
-CHATGPT_API_KEY = "sk-sae-we-yHodfv15Vh34YUrZgo8ET3BlbkFJYnI1U9BhC9xFfpI7MGKc"
+CHATGPT_API_KEY = ""
 
 # Initialize OpenAI API key
 openai.api_key = CHATGPT_API_KEY
@@ -130,6 +131,28 @@ def use_chatgpt_to_correct_workflow(workflow_content):
     corrected_workflow = response['choices'][0]['message']['content']
     return corrected_workflow
 
+def RaisePR(GITHUB_TOKEN):
+    headers = {
+    "Authorization": f"token {GITHUB_TOKEN}",
+    "Accept": "application/vnd.github.v3+json"
+    }
+
+    data = {
+        "title": "AI Fix feature",
+        "body": "This PR implements the authentication feature using AIOps",
+        "head": "auth-feature",
+        "base": "main"
+    }
+
+    response = requests.post("https://api.github.com/repos/ArwaAhmed98/demo-hackthon-2024/pulls", headers=headers, json=data)
+
+    if response.status_code == 201:
+        print("Pull request created successfully.")
+    else:
+        print(f"Failed to create pull request. Status code: {response.status_code}")
+        print(response.json())
+        
+
 def main():
     success, _ = trigger_github_actions_workflow(REPO_OWNER, REPO_NAME, WORKFLOW_FILE_PATH, GITHUB_TOKEN)
     if success:
@@ -147,7 +170,6 @@ def main():
 
             if initial_conclusion in ["failure", "startup_failure"]:
                 print("Initial workflow run failed. Attempting to correct the workflow with ChatGPT...")
-                # file el asli fel BACKUP_DIRECTORY, initial_workflow_config_path
                 
                 with open(initial_workflow_config_path, 'r') as file:
                     workflow_content = file.read()
@@ -159,6 +181,16 @@ def main():
                     file.write(corrected_workflow)
 
                 print(f"Corrected workflow file saved to {corrected_workflow_path}. No further actions taken.")
+                # start commiting to git
+                command=(f'git clone https://{GITHUB_TOKEN}@github.com/ArwaAhmed98/demo-hackthon-2024.git')
+                os.system(command)
+                command=("cd ./demo-hackthon-2024 && \
+                git checkout auth-feature && \
+                cp ../corrected_workflow.yml ./.github/workflows/helloworld-corrected.yml && \
+                git add . && git commit -m 'Fix Commit' && git push")
+                os.system(command)
+                RaisePR(GITHUB_TOKEN)
+
             else:
                 print("Initial workflow run succeeded.")
         else:
@@ -166,5 +198,7 @@ def main():
     else:
         print("Failed to trigger initial GitHub Actions workflow.")
 
+
+        
 if __name__ == "__main__":
     main()
