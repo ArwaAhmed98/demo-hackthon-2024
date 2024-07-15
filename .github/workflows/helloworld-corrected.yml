@@ -1,27 +1,15 @@
-Here is the corrected version of the GitHub Actions workflow file:
-
-```yaml
 name: Hello World Workflow
-
 on:
   push:
     branches:
-      - main
+    - main
   workflow_dispatch:
 
 jobs:
   hello-world:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-      - name: Run Hello World Script
-        run: |
-          echo "Hello, World!"
-```
-
-In the corrected version:
-1. The incorrect `true` key has been removed.
-2. The `branches` key under `push` event trigger has been properly indented.
-3. The `workflow_dispatch` event has been properly defined.
-4. The syntax error in the `run` command has been fixed to output "Hello, World!" instead.
+    - name: Checkout repository
+      uses: actions/checkout@v2
+    - name: Run Hello World Script
+      run: echo "Hello World"
