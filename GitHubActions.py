@@ -13,10 +13,11 @@ GITHUB_API_URL = "https://api.github.com"
 REPO_OWNER = "ArwaAhmed98"
 REPO_NAME = "demo-hackthon-2024"
 WORKFLOW_FILE_PATH = ".github/workflows/helloworld.yml"
-GITHUB_TOKEN = ""
+GITHUB_TOKEN = "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"
 BACKUP_DIRECTORY = "/Users/abdelhalima3/Downloads/Actions"
 BUILD_POLL_INTERVAL = 10  # Time in seconds between status checks
-CHATGPT_API_KEY = ""
+CHATGPT_API_KEY = "sk-svcacct-0xAlGsirrUg164qxH1ArT3BlbkFJ5x7hOrytwVFxWi2SciNb"
+
 
 # Initialize OpenAI API key
 openai.api_key = CHATGPT_API_KEY
