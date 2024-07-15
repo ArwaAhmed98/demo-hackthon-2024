@@ -13,19 +13,26 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up Trivy
-        uses: aquasecurity/trivy-action@master
+      - name: Install Trivy
+        run: |
+          sudo apt-get update
+          sudo apt-get install wget apt-transport-https gnupg lsb-release -y
+          wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
+          echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main | sudo tee -a /etc/apt/sources.list.d/trivy.list
+          sudo apt-get update
+          sudo apt-get install trivy -y
 
       - name: Run Trivy vulnerability scan
         id: trivy-scan
-        run: trivy fs --exit-code 1 --severity HIGH,CRITICAL .
+        run: |
+          trivy fs --exit-code 1 --severity HIGH,CRITICAL --output trivy-report.txt .
 
       - name: Upload Trivy scan results
         if: failure()
         uses: actions/upload-artifact@v2
         with:
           name: trivy-report
-          path: trivy-report.json
+          path: trivy-report.txt
 
       - name: Fail PR if vulnerabilities are found
         if: failure()
