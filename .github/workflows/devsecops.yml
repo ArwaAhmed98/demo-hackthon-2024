@@ -1,0 +1,32 @@
+name: Trivy Scan
+
+on:
+  pull_request:
+    branches:
+      - main  # Adjust this to match the branch you want to protect
+
+jobs:
+  trivy_scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Trivy
+        uses: aquasecurity/trivy-action@v0.1.0
+
+      - name: Run Trivy vulnerability scan
+        id: trivy-scan
+        run: trivy fs --exit-code 1 --severity HIGH,CRITICAL .
+
+      - name: Upload Trivy scan results
+        if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: trivy-report
+          path: trivy-report.json
+
+      - name: Fail PR if vulnerabilities are found
+        if: failure()
+        run: exit 1
