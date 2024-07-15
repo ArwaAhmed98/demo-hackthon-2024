@@ -6,17 +6,15 @@ import yaml
 import base64
 import re
 import openai
-import subprocess
 
 # Static variables
 GITHUB_API_URL = "https://api.github.com"
 REPO_OWNER = "ArwaAhmed98"
 REPO_NAME = "demo-hackthon-2024"
 WORKFLOW_FILE_PATH = ".github/workflows/helloworld.yml"
-GITHUB_TOKEN = ""
 BACKUP_DIRECTORY = "/Users/abdelhalima3/Downloads/Actions"
 BUILD_POLL_INTERVAL = 10  # Time in seconds between status checks
-CHATGPT_API_KEY = ""
+CHATGPT_API_KEY = os.getenv("CHATGPT_API_KEY")
 
 # Initialize OpenAI API key
 openai.api_key = CHATGPT_API_KEY
@@ -77,7 +75,7 @@ def wait_for_workflow_to_finish(repo_owner, repo_name, run_id, github_token):
 
 def save_initial_workflow_config(repo_owner, repo_name, workflow_file_path, backup_directory):
     headers = {
-        "Authorization": f"token {GITHUB_TOKEN}",
+        "Authorization": f"token {os.getenv('GITHUB_TOKEN')}",
         "Accept": "application/vnd.github.v3.raw"
     }
     response = requests.get(
@@ -154,7 +152,8 @@ def RaisePR(GITHUB_TOKEN):
         
 
 def main():
-    success, _ = trigger_github_actions_workflow(REPO_OWNER, REPO_NAME, WORKFLOW_FILE_PATH, GITHUB_TOKEN)
+    github_token = os.getenv("GITHUB_TOKEN")
+    success, _ = trigger_github_actions_workflow(REPO_OWNER, REPO_NAME, WORKFLOW_FILE_PATH, github_token)
     if success:
         print("Waiting for GitHub Actions workflow to finish...")
         initial_workflow_config_path = save_initial_workflow_config(REPO_OWNER, REPO_NAME, WORKFLOW_FILE_PATH, BACKUP_DIRECTORY)
@@ -163,10 +162,10 @@ def main():
             print("Failed to save initial workflow config. Exiting.")
             return
 
-        workflow_run = get_workflow_run(REPO_OWNER, REPO_NAME, GITHUB_TOKEN)
+        workflow_run = get_workflow_run(REPO_OWNER, REPO_NAME, github_token)
         if workflow_run:
             run_id = workflow_run.get("id")
-            initial_conclusion = wait_for_workflow_to_finish(REPO_OWNER, REPO_NAME, run_id, GITHUB_TOKEN)
+            initial_conclusion = wait_for_workflow_to_finish(REPO_OWNER, REPO_NAME, run_id, github_token)
 
             if initial_conclusion in ["failure", "startup_failure"]:
                 print("Initial workflow run failed. Attempting to correct the workflow with ChatGPT...")
@@ -182,23 +181,10 @@ def main():
 
                 print(f"Corrected workflow file saved to {corrected_workflow_path}. No further actions taken.")
                 # start commiting to git
-                command=(f'git clone https://{GITHUB_TOKEN}@github.com/ArwaAhmed98/demo-hackthon-2024.git')
+                command=(f'git clone https://{github_token}@github.com/ArwaAhmed98/demo-hackthon-2024.git')
                 os.system(command)
                 command=("cd ./demo-hackthon-2024 && \
                 git checkout auth-feature && \
                 cp ../corrected_workflow.yml ./.github/workflows/helloworld-corrected.yml && \
                 git add . && git commit -m 'Fix Commit' && git push")
                 os.system(command)
-                RaisePR(GITHUB_TOKEN)
-
-            else:
-                print("Initial workflow run succeeded.")
-        else:
-            print("Failed to get workflow run details.")
-    else:
-        print("Failed to trigger initial GitHub Actions workflow.")
-
-
-        
-if __name__ == "__main__":
-    main()
