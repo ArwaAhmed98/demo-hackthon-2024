@@ -14,6 +14,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
  
-      name: Run Hello World Script
+      - name: Run Hello World Script
         run: echo "Hello, World!"
         run: echo "This is a syntax error" # Intentional syntax error
