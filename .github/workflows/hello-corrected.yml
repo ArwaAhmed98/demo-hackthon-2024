@@ -1,0 +1,22 @@
+Here is the corrected version of the GitHub Actions workflow file:
+
+```yaml
+name: Hello World Workflow
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  hello-world:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Run Hello World Script
+        run: echo "Hello, World!"
+``` 
+
+In this corrected version, the syntax error in the `run` command has been fixed, and the workflow now prints "Hello, World!" instead of "This is a syntax error".
