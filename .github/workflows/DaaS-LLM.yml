@@ -1,0 +1,28 @@
+name: LLM Code Scan
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  code-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout current repo (target)
+        uses: actions/checkout@v3
+
+      - name: Clone Go-LLM-Code-Scan repo
+        run: git clone https://github.com/MostafaAnas/Go-LLM-Code-Scan.git
+
+      - name: Modify model server and model name
+        working-directory: Go-LLM-Code-Scan/scan-repo
+        run: |
+          sed -i 's/ollama.WithModel("llama3.2:1b")/ollama.WithModel("llama3")/; s|ollama.WithServerURL("http://localhost:11434")|ollama.WithServerURL("http://44.210.76.220")|' main.go
+
+
+      - name: Run the scanner and print output
+        working-directory: Go-LLM-Code-Scan/scan-repo
+        run: |
+          go run main.go $GITHUB_WORKSPACE
