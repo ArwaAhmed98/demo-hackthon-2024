@@ -34,6 +34,6 @@ jobs:
           name: trivy-report
           path: trivy-report.txt
 
-      # - name: Fail PR if vulnerabilities are found
-      #   if: failure()
-      #   run: exit 1
+      - name: Fail PR if vulnerabilities are found
+        if: failure()
+        run: exit 1
