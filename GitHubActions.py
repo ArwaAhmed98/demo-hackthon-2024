@@ -13,10 +13,10 @@ GITHUB_API_URL = "https://api.github.com"
 REPO_OWNER = "ArwaAhmed98"
 REPO_NAME = "demo-hackthon-2024"
 WORKFLOW_FILE_PATH = ".github/workflows/HelloWorld.yml"
-GITHUB_TOKEN = ""
+GITHUB_TOKEN = os.getenv("GHE_TOKEN")
 BACKUP_DIRECTORY = "." # current dir
 BUILD_POLL_INTERVAL = 10  # Time in seconds between status checks
-CHATGPT_API_KEY = "sk-svcacct-0xAlGsirrUg164qxH1ArFJ5x7hOrytwVFx2SciNb" # FAKE_API_KEY
+CHATGPT_API_KEY = "sk-svcacct-0xAlGsirrUg164qxH1ArFJ5x7hOrytwVFx2SciNb" # FAKE_API_KEY => Should be fixed with AI
 
 
 # Initialize OpenAI API key
