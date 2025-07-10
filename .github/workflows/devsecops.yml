@@ -25,7 +25,7 @@ jobs:
       - name: Run Trivy vulnerability scan
         id: trivy-scan
         run: |
-          trivy fs --exit-code 1 --severity HIGH,CRITICAL --output trivy-report.txt $GITHUB_WORKSPACE
+          trivy fs --scanners vuln,secret --exit-code 1 --severity HIGH,CRITICAL --output trivy-report.txt $GITHUB_WORKSPACE
 
       - name: Upload Trivy scan results
         if: failure()
