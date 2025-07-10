@@ -16,4 +16,4 @@ jobs:
  
       - name: Run Hello World Script
         run: echo "Hello, World!"
-        run: echo "This is a syntax error" # Intentional syntax error
+        run: echo "This is a syntax error" #  syntax error
