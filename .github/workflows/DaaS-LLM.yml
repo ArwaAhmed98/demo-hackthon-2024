@@ -19,7 +19,7 @@ jobs:
       - name: Modify model server and model name
         working-directory: Go-LLM-Code-Scan/scan-repo
         run: |
-          sed -i 's/ollama.WithModel("llama3.2:1b")/ollama.WithModel("llama3")/; s|ollama.WithServerURL("http://localhost:11434")|ollama.WithServerURL("http://3.236.78.32")|' main.go
+          sed -i 's/ollama.WithModel("llama3.2:1b")/ollama.WithModel("llama3")/; s|ollama.WithServerURL("http://localhost:11434")|ollama.WithServerURL("http://3.236.20.190")|' main.go
 
 
       - name: Run the scanner and print output
