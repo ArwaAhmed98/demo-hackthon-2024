@@ -12,7 +12,7 @@ GITHUB_API_URL       = "https://api.github.com"
 REPO_OWNER           = "ArwaAhmed98"
 REPO_NAME            = "demo-hackthon-2024"
 WORKFLOW_FILE_PATH   = ".github/workflows/HelloWorld.yml"
-GITHUB_TOKEN         = os.getenv("GHE_TOKEN", "")          # supply via env or hard-code
+GITHUB_TOKEN         = os.getenv("GHE_TOKEN")          # supply via env or hard-code
 BACKUP_DIRECTORY     = "."                                 # current dir
 BUILD_POLL_INTERVAL  = 10                                  # seconds between status checks
 
@@ -20,7 +20,7 @@ BUILD_POLL_INTERVAL  = 10                                  # seconds between sta
 CUSTOM_LLM_BASE_URL  = "http://3.236.20.190"               # EC2 public IP (no trailing slash)
 CUSTOM_LLM_MODEL     = "llama3"                            # model name as recognised by the server
 # If your server requires an auth token, export LLM_TOKEN or hard-code it here
-CUSTOM_LLM_TOKEN     = os.getenv("LLM_TOKEN", None)
+CUSTOM_LLM_TOKEN     = os.getenv("LLM_TOKEN")
 
 # ──────────────── GitHub Actions helpers ───────────────
 def trigger_github_actions_workflow(repo_owner, repo_name, workflow_file_path, github_token):
@@ -72,26 +72,34 @@ def wait_for_workflow_to_finish(repo_owner, repo_name, run_id, github_token):
 def save_initial_workflow_config(repo_owner, repo_name, workflow_file_path, backup_directory):
     headers = {
         "Authorization": f"token {GITHUB_TOKEN}",
-        "Accept": "application/vnd.github.v3.raw"
+        "Accept": "application/vnd.github.v3+json"  # request JSON, not raw
     }
-    resp = requests.get(f"{GITHUB_API_URL}/repos/{repo_owner}/{repo_name}/contents/{workflow_file_path}", headers=headers)
+
+    url = f"{GITHUB_API_URL}/repos/{repo_owner}/{repo_name}/contents/{workflow_file_path}"
+    resp = requests.get(url, headers=headers)
 
     if resp.status_code != 200:
-        print(f"❌ Unable to fetch workflow: {resp.text}")
+        print(f"❌ Failed to fetch workflow file: {resp.status_code} – {resp.text}")
         return None
 
-    # GitHub returns JSON with base64-encoded content
-    content_b64 = resp.json().get("content", "")
-    if not content_b64:
-        print("❌ Empty workflow content")
+    try:
+        content = resp.json().get("content", "")
+        if not content:
+            print("❌ No content found in GitHub response.")
+            return None
+
+        decoded_content = base64.b64decode(content).decode('utf-8')
+        backup_path = os.path.join(backup_directory, f"initial_config_{os.path.basename(workflow_file_path)}")
+        with open(backup_path, 'w') as f:
+            f.write(decoded_content)
+
+        print(f"✅ Workflow saved to: {backup_path}")
+        return backup_path
+
+    except Exception as e:
+        print(f"❌ Failed to parse workflow content: {e}")
         return None
 
-    decoded = base64.b64decode(content_b64).decode()
-    backup_path = os.path.join(backup_directory, f"initial_config_{os.path.basename(workflow_file_path)}")
-    with open(backup_path, "w") as fh:
-        fh.write(decoded)
-    print(f"💾 Original workflow saved ➜ {backup_path}")
-    return backup_path
 
 # ──────────────── ✨  LLM integration  ✨ ───────────────
 def use_llama3_to_correct_workflow(workflow_content: str) -> str:
