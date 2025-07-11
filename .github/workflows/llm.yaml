@@ -1,4 +1,4 @@
-name: LLM Code Scan
+name: DAST LLM Code Scan
 
 on:
   pull_request:

@@ -1,4 +1,4 @@
-name: LLM Code Scan
+name: SAST LLM Code Scan
 
 on:
   pull_request:
