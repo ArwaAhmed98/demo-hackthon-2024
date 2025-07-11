@@ -231,10 +231,10 @@ def main():
     repo_dir = os.path.join(os.getcwd(), REPO_NAME)
     subprocess.run(["git", "checkout", "-B", "auth-feature"], cwd=repo_dir, check=True)
 
-    # ▲ Save corrected YAML to a new file named "original-corrently.yaml"
+    # ▲ Save corrected YAML to a new file named "fixed-ai.yaml"
     dest_relative = os.path.join(
         os.path.dirname(WORKFLOW_FILE_PATH),
-        "original-corrently.yaml"
+        "fixed-ai.yaml"
     )
     dest_path = os.path.join(repo_dir, dest_relative)
     os.makedirs(os.path.dirname(dest_path), exist_ok=True)
@@ -243,7 +243,7 @@ def main():
     # ▲ Stage & commit new file inside the repo
     subprocess.run(["git", "add", dest_relative], cwd=repo_dir, check=True)
     subprocess.run(
-        ["git", "commit", "-m", "fix: auto-generated workflow patch as original-corrently.yaml"],
+        ["git", "commit", "-m", "fix: auto-generated workflow patch as fixed-ai.yaml"],
         cwd=repo_dir,
         check=True,
     )
