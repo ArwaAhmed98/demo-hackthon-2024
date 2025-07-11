@@ -26,7 +26,7 @@ BACKUP_DIRECTORY    = "/Users/abdelhalima3/Downloads/Hackthon"
 BUILD_POLL_INTERVAL = 10                                # seconds
 
 # ── Self-hosted LLM details ──────────────────────
-CUSTOM_LLM_BASE_URL = "http://3.236.245.215"            # no trailing slash
+CUSTOM_LLM_BASE_URL = "http://44.201.96.118"            # no trailing slash
 CUSTOM_LLM_MODEL    = "llama3"
 CUSTOM_LLM_TOKEN    = os.getenv("LLM_TOKEN")
 
