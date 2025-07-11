@@ -7,7 +7,8 @@ import json
 import os
 
 # Initialize ZAP API client with API key
-api_key = os.getenv("api_key")
+# api_key = os.getenv("api_key")
+api_key = 'vh7bqrauhothh2b0en7r53se5i'
 zap = ZAPv2(apikey=api_key)
 
 # Take target URL as input
