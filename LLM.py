@@ -146,7 +146,6 @@ def use_llama3_to_correct_workflow(workflow_content: str) -> str:
 
     try:
         raw_reply = resp.json()["choices"][0]["message"]["content"]
-        # strip ```yaml ... ``` fences if present
         yaml_only = re.sub(
             r"^\s*```(?:ya?ml)?\s*\n|\n```?\s*$",
             "",
@@ -232,16 +231,19 @@ def main():
     repo_dir = os.path.join(os.getcwd(), REPO_NAME)
     subprocess.run(["git", "checkout", "-B", "auth-feature"], cwd=repo_dir, check=True)
 
-    # ▲ Copy the YAML *into* the repo and overwrite the original
-    dest_relative = WORKFLOW_FILE_PATH          # .github/workflows/HelloWorld.yml
+    # ▲ Save corrected YAML to a new file named "original-corrently.yaml"
+    dest_relative = os.path.join(
+        os.path.dirname(WORKFLOW_FILE_PATH),
+        "original-corrently.yaml"
+    )
     dest_path = os.path.join(repo_dir, dest_relative)
     os.makedirs(os.path.dirname(dest_path), exist_ok=True)
     shutil.copy2(corrected_path, dest_path)
 
-    # ▲ Stage & commit inside the repo
+    # ▲ Stage & commit new file inside the repo
     subprocess.run(["git", "add", dest_relative], cwd=repo_dir, check=True)
     subprocess.run(
-        ["git", "commit", "-m", "fix: auto-generated workflow patch"],
+        ["git", "commit", "-m", "fix: auto-generated workflow patch as original-corrently.yaml"],
         cwd=repo_dir,
         check=True,
     )
