@@ -37,7 +37,7 @@ for item in new_report:
     description = item["description"]
     reference = item["reference"]
     solution_provided = item["solution"]
-    url = "http://3.236.245.215/api/generate"
+    url = "http://44.201.96.118/api/generate"
     payload = {
      "model": "llama3",
      "prompt": (
