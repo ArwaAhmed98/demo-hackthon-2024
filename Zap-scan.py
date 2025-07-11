@@ -31,7 +31,7 @@ print(f'Scan results: {scan_results}')
 print("✅ Scan results is generated.")
 
 report = []
-new_report = scan_results[:1]
+new_report = scan_results[:3]
 i=0
 for item in new_report:
     i=i+1
