@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  code-scan:
+  code-scan-sast:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout current repo (target)
