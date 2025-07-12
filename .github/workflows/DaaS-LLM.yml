@@ -28,5 +28,5 @@ jobs:
       - name: Run the scanner and print output
         working-directory: Go-LLM-Code-Scan/scan-repo
         run: |
-          go run main.go ./Scripts
+          go run main.go Scripts/
           cat summarized_query.txt
