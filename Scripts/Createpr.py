@@ -22,7 +22,7 @@ def RaisePR(GITHUB_TOKEN):
     }
 
     data = {
-        "title": "AI PR Fix for the issue",
+        "title": "DAST PR Fix",
         "body": "This PR implements the authentication feature using AIOps",
         "head": "issue-fix", # branch-name
         "base": "main"
