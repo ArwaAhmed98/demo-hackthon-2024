@@ -105,6 +105,7 @@ def main():
                 commands = f"""
                 cd demo-hackthon-2024 && \
                 git checkout -b issue-fix && \
+                ls && \
                 cp -f ../{file_name} . && \
                 git add . && \
                 git commit -m 'Fix Commit' && \
