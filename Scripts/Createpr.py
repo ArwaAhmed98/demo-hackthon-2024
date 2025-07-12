@@ -108,7 +108,7 @@ def main():
                 cp -f ../{file_name} . && \
                 git add . && \
                 git commit -m 'Fix Commit' && \
-                git push https://{Token}@github.com/ArwaAhmed98/demo-hackthon-2024.git issue-fix 
+                git push origin issue-fix 
                 """
                 
                 subprocess.run(commands, shell=True, check=True)
