@@ -14,7 +14,7 @@ jobs:
   code-scan-dast:
     runs-on: [self-hosted, Linux, X64, zap]
     env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB }}
+      GITHUB_TOKEN: ${{ secrets.GHE_TOKEN }}
     steps:
       - name: Checkout current repo (target)
         uses: actions/checkout@v3
