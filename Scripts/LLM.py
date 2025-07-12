@@ -166,7 +166,7 @@ def raise_pr(github_token):
     data = {
         "title": "AI-generated workflow fix",
         "body": "This PR patches the workflow using an LLM-generated correction.",
-        "head": "issue-fix",
+        "head": "auth-feature",
         "base": "main",
     }
     resp = requests.post(
@@ -219,7 +219,7 @@ def main():
         fh.write(corrected_yaml)
     print(f"💾 Corrected workflow written ➜ {corrected_path}")
 
-    # ── Commit fix on "issue-fix" branch ──
+    # ── Commit fix on "auth-feature" branch ──
     subprocess.run(
         [
             "git",
@@ -229,7 +229,7 @@ def main():
         check=True,
     )
     repo_dir = os.path.join(os.getcwd(), REPO_NAME)
-    subprocess.run(["git", "checkout", "-B", "issue-fix"], cwd=repo_dir, check=True)
+    subprocess.run(["git", "checkout", "-B", "auth-feature"], cwd=repo_dir, check=True)
 
     # ▲ Save corrected YAML to a new file named "fixed-ai.yaml"
     dest_relative = os.path.join(
@@ -247,7 +247,7 @@ def main():
         cwd=repo_dir,
         check=True,
     )
-    subprocess.run(["git", "push", "-u", "origin", "issue-fix"], cwd=repo_dir, check=True)
+    subprocess.run(["git", "push", "-u", "origin", "auth-feature"], cwd=repo_dir, check=True)
 
     # ── Open PR ──
     raise_pr(GITHUB_TOKEN)

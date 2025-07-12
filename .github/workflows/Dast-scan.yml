@@ -1,10 +1,10 @@
 name: DAST LLM Code Scan
 
 on:
-  pull_request:
-    types: [closed]
-    branches:
-      - main  # Adjust this to match the branch you want to protect
+  # pull_request:
+  #   types: [closed]
+  #   branches:
+  #     - main  # Adjust this to match the branch you want to protect
   push:
     branches:
       - main
