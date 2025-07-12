@@ -1,4 +1,4 @@
-name: LLM Code Scan
+name: DAST LLM Code Scan
 
 on:
   pull_request:
@@ -11,10 +11,10 @@ on:
   workflow_dispatch:
 
 jobs:
-  code-scan:
+  code-scan-dast:
     runs-on: [self-hosted, Linux, X64, zap]
     env:
-      GITHUB_TOKEN: ${{ secrets.GHE_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB }}
     steps:
       - name: Checkout current repo (target)
         uses: actions/checkout@v3
