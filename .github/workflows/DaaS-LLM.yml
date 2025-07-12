@@ -4,9 +4,7 @@ on:
   pull_request:
     branches:
       - main  # Adjust this to match the branch you want to protect
-  push:
-    branches:
-      - main
+
   workflow_dispatch:
 
 jobs:
