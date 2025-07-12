@@ -1,10 +1,10 @@
-from flask import Flask
-
+from flask import Flask, make_response
 app = Flask(__name__)
 
-@app.route('/')
-def hello_world():
-    return 'Hello World!'
+@app.after_request
+def after_request(response):
+    response.headers['X-Frame-Options'] = 'DENY'  # or SAMEORIGIN if needed
+    return response
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=5000)
+    app.run(debug=True)
