@@ -111,7 +111,6 @@ def main():
                 git commit -m 'Fix Commit' && \
                 git push -u origin issue-fix 
                 """
-                
                 subprocess.run(commands, shell=True, check=True)
 
                 RaisePR(Token)
