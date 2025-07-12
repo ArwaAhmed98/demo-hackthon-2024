@@ -108,7 +108,7 @@ def main():
                 cp -f ../{file_name} . && \
                 git add . && \
                 git commit -m 'Fix Commit' && \
-                git push origin issue-fix 
+                git push -u origin issue-fix 
                 """
                 
                 subprocess.run(commands, shell=True, check=True)
