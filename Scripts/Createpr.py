@@ -114,8 +114,6 @@ def main():
                 
                 subprocess.run(commands, shell=True, check=True)
 
-
-               
                 RaisePR(Token)
 
 if __name__ == "__main__":
