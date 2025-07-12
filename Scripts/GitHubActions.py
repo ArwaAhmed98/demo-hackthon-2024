@@ -141,7 +141,7 @@ def RaisePR(GITHUB_TOKEN):
     data = {
         "title": "AI Fix feature",
         "body": "This PR implements the authentication feature using AIOps",
-        "head": "auth-feature",
+        "head": "issue-fix",
         "base": "main"
     }
 
@@ -186,7 +186,7 @@ def main():
                 command=(f'git clone https://{GITHUB_TOKEN}@github.com/ArwaAhmed98/demo-hackthon-2024.git')
                 os.system(command)
                 command=("cd ./demo-hackthon-2024 && \
-                git checkout auth-feature && \
+                git checkout issue-fix && \
                 cp ../corrected_workflow.yml ./.github/workflows/helloworld-corrected.yml && \
                 git add . && git commit -m 'Fix Commit' && git push")
                 os.system(command)

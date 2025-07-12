@@ -29,3 +29,4 @@ jobs:
         working-directory: Go-LLM-Code-Scan/scan-repo
         run: |
           go run main.go $GITHUB_WORKSPACE
+          cat summarized_query.txt
