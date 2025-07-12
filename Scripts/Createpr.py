@@ -103,7 +103,7 @@ def main():
                 os.system(command)
           
                 commands = f"""
-                cd Dast-tool && \
+                cd demo-hackthon-2024 && \
                 git checkout -b issue-fix && \
                 cp -f ../{file_name} . && \
                 git add . && \
